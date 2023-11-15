@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Models\User.fs" />
+        <Compile Include="WeatherForecast.fs"/>
+        <Compile Include="Controllers/WeatherForecastController.fs"/>
+        <Compile Include="Controllers\ControllerUtils.fs" />
+        <Compile Include="Controllers\LoginController.fs" />
+        <Compile Include="Controllers\UserController.fs" />
+        <Compile Include="Program.fs"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.21" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+    </ItemGroup>
+
+</Project>
