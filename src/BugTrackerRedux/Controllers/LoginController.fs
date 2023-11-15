@@ -12,7 +12,7 @@ open Microsoft.Extensions.Logging
 open Dapper
 
 [<ApiController>]
-[<Route("[controller]")>]
+[<Route("api/[controller]")>]
 type LoginController(config: IConfiguration, logger: ILogger<LoginController>) =
     inherit ControllerBase()
 

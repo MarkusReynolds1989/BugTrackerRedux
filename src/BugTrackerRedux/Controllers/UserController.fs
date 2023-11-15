@@ -13,7 +13,7 @@ open Microsoft.Extensions.Logging
 open Dapper
 
 [<ApiController>]
-[<Route("[controller]")>]
+[<Route("api/[controller]")>]
 type UserController(config: IConfiguration, logger: ILogger<UserController>) =
     inherit ControllerBase()
 
@@ -51,7 +51,7 @@ type UserController(config: IConfiguration, logger: ILogger<UserController>) =
     [<HttpPost>]
     member _.Post(user: User) : Task<IActionResult> =
         logger.LogInformation("Trying to insert user: {}", user)
-        
+
         use hash = SHA256.Create()
 
         let hashedPassword =
@@ -74,16 +74,17 @@ type UserController(config: IConfiguration, logger: ILogger<UserController>) =
                        FirstName = user.FirstName
                        LastName = user.LastName
                        Password = hashedPassword
+                       Email = user.Email
                        AuthenticationLevel = user.AuthenticationLevel |}
 
                 let! rowCount = authenticationConnection.ExecuteAsync(query, parameters) |> Async.AwaitTask
 
                 if rowCount = 1 then
-                    logger.LogInformation("Added user {}", user)
-                    return OkObjectResult("Added user {} ", user) :> IActionResult
+                    logger.LogInformation("Added user {}", user.ToString())
+                    return OkObjectResult("Added user ", user) :> IActionResult
                 else
-                    logger.LogError("Failed to add user {}", user)
-                    return BadRequestObjectResult($"Failed to add user {user}") :> IActionResult
+                    logger.LogError("Failed to add user.")
+                    return BadRequestObjectResult("Failed to add user.") :> IActionResult
 
             with ex ->
                 logger.LogError("{}", ex)
