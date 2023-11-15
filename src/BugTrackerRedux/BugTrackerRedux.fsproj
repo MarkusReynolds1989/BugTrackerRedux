@@ -7,8 +7,6 @@
 
     <ItemGroup>
         <Compile Include="Models\User.fs" />
-        <Compile Include="WeatherForecast.fs"/>
-        <Compile Include="Controllers/WeatherForecastController.fs"/>
         <Compile Include="Controllers\ControllerUtils.fs" />
         <Compile Include="Controllers\LoginController.fs" />
         <Compile Include="Controllers\UserController.fs" />
