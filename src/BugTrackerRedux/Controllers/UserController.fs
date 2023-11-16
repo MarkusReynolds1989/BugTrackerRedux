@@ -81,3 +81,46 @@ type UserController(config: IConfiguration, logger: ILogger<UserController>) =
                 logger.LogError("{}", ex)
                 return BadRequestObjectResult("Invalid user.") :> IActionResult
         }
+
+    [<HttpPost("update")>]
+    member _.PostUpdate(user: User) : Task<IActionResult> =
+        logger.LogInformation("Trying to update user: {}", user)
+
+        use hash = SHA256.Create()
+
+        let hashedPassword =
+            BitConverter.ToString(hash.ComputeHash(Encoding.Unicode.GetBytes(user.Password)))
+
+        task {
+            try
+                use authenticationConnection =
+                    new SqliteConnection(config.GetConnectionString("default"))
+
+                do! authenticationConnection.OpenAsync() |> Async.AwaitTask
+                logger.LogInformation("Connection successful.")
+
+                let query =
+                    """update user (UserName, FirstName, LastName, Password, Email, AuthenticationLevel)
+                        values (@UserName, @FirstName, @LastName, @Password, @Email, @AuthenticationLevel)"""
+
+                let parameters =
+                    {| UserName = user.UserName
+                       FirstName = user.FirstName
+                       LastName = user.LastName
+                       Password = hashedPassword
+                       Email = user.Email
+                       AuthenticationLevel = user.AuthenticationLevel |}
+
+                let! rowCount = authenticationConnection.ExecuteAsync(query, parameters) |> Async.AwaitTask
+
+                if rowCount = 1 then
+                    logger.LogInformation("Added user {}", user.ToString())
+                    return OkObjectResult("Added user ", user) :> IActionResult
+                else
+                    logger.LogError("Failed to add user.")
+                    return BadRequestObjectResult("Failed to add user.") :> IActionResult
+
+            with ex ->
+                logger.LogError("{}", ex)
+                return BadRequestObjectResult("Invalid user.") :> IActionResult
+        }
