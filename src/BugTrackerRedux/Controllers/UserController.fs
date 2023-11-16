@@ -18,12 +18,7 @@ type UserController(config: IConfiguration, logger: ILogger<UserController>) =
     inherit ControllerBase()
 
     [<HttpGet>]
-    member _.Get(userName: string, password: string) : Task<IActionResult> =
-        use hash = SHA256.Create()
-
-        let hashedPassword =
-            BitConverter.ToString(hash.ComputeHash(Encoding.Unicode.GetBytes(password)))
-
+    member _.Get() : Task<IActionResult> =
         task {
             try
                 use authenticationConnection =
@@ -32,13 +27,9 @@ type UserController(config: IConfiguration, logger: ILogger<UserController>) =
                 do! authenticationConnection.OpenAsync() |> Async.AwaitTask
                 logger.LogInformation("Connection successful.")
 
-                let query = "select * from user where UserName = @UserName and Password = @Password"
+                let query = "select * from user"
 
-                let parameters =
-                    {| user_name = DbString(Value = userName, IsFixedLength = true, Length = 45, IsAnsi = false)
-                       password = DbString(Value = hashedPassword, IsFixedLength = true, Length = 100, IsAnsi = false) |}
-
-                let! result = authenticationConnection.QueryAsync<User>(query, parameters) |> Async.AwaitTask
+                let! result = authenticationConnection.QueryAsync<User>(query) |> Async.AwaitTask
                 let user = result |> Seq.tryHead
 
                 return OkObjectResult(user) :> IActionResult
