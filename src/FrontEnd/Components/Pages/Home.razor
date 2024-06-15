@@ -1,0 +1,21 @@
+﻿@page "/"
+@inject  HttpClient Http
+@rendermode InteractiveServer
+@using BugTrackerRedux.Controllers
+
+<button @onclick="GetTest">Get TestItem</button>
+@if (result is not null)
+{
+    <p>@result.Data</p>
+    <p>@result.OtherItem</p>
+}
+
+@code {
+    private TestController.TestItem result;
+
+    private async Task GetTest()
+    {
+        result = await Http.GetFromJsonAsync<TestController.TestItem>("/api/ping");
+    }
+
+}

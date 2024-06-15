@@ -4,6 +4,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BugTrackerRedux", "BugTrack
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BugTrackerTests", "BugTrackerTests\BugTrackerTests.fsproj", "{F23B65E2-2317-4DAB-83EE-791A1B9C71F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEnd", "FrontEnd\FrontEnd.csproj", "{19D638E3-4BEA-4D59-9A9C-91FAF51A317D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{F23B65E2-2317-4DAB-83EE-791A1B9C71F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F23B65E2-2317-4DAB-83EE-791A1B9C71F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F23B65E2-2317-4DAB-83EE-791A1B9C71F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D638E3-4BEA-4D59-9A9C-91FAF51A317D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D638E3-4BEA-4D59-9A9C-91FAF51A317D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D638E3-4BEA-4D59-9A9C-91FAF51A317D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D638E3-4BEA-4D59-9A9C-91FAF51A317D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

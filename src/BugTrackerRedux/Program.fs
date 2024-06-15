@@ -20,7 +20,7 @@ module Program =
 
     let configureLogging (loggerBuilder: ILoggingBuilder) =
         loggerBuilder
-            .AddFilter(fun lvl -> lvl.Equals LogLevel.Information)
+            .AddFilter(fun level -> level.Equals LogLevel.Information)
             .AddConsole()
             .AddDebug()
         |> ignore

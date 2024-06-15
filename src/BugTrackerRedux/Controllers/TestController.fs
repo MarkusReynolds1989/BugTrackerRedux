@@ -8,8 +8,8 @@ type TestItem = { Data: int; OtherItem: string }
 
 let item = { Data = 1; OtherItem = "Banana" }
 
-let testHandler  =
-    
+let testHandler =
+
     fun (next: HttpFunc) (ctx: HttpContext) ->
         let logger = ctx.GetService<ILogger<TestItem>>()
         logger.LogInformation("Test")
