@@ -10,6 +10,7 @@
         <Compile Include="Controllers\ControllerUtils.fs" />
         <Compile Include="Controllers\LoginController.fs" />
         <Compile Include="Controllers\UserController.fs" />
+        <Compile Include="Controllers\TestController.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>
 
