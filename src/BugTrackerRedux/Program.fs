@@ -1,27 +1,41 @@
 namespace BugTrackerRedux
-#nowarn "20"
 
+open BugTrackerRedux.Controllers
 open Microsoft.AspNetCore.Builder
-open Microsoft.Extensions.DependencyInjection
+open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.DependencyInjection
+open Giraffe
+open Microsoft.Extensions.Logging
 
 module Program =
-    let exitCode = 0
+    let webApp =
+        choose
+            [ route "/api/ping" >=> TestController.testHandler
+              route "/" >=> text "All Clear." ]
+
+    let configureApp (app: IApplicationBuilder) = app.UseGiraffe webApp
+
+    let configureServices (services: IServiceCollection) = services.AddGiraffe() |> ignore
+
+    let configureLogging (loggerBuilder: ILoggingBuilder) =
+        loggerBuilder
+            .AddFilter(fun lvl -> lvl.Equals LogLevel.Information)
+            .AddConsole()
+            .AddDebug()
+        |> ignore
 
     [<EntryPoint>]
     let main args =
+        Host
+            .CreateDefaultBuilder()
+            .ConfigureWebHostDefaults(fun webHostBuilder ->
+                webHostBuilder
+                    .Configure(configureApp)
+                    .ConfigureServices(configureServices)
+                    .ConfigureLogging(configureLogging)
+                |> ignore)
+            .Build()
+            .Run()
 
-        let builder = WebApplication.CreateBuilder(args)
-        
-        builder.Services.AddControllers()
-
-        let app = builder.Build()
-
-        app.UseHttpsRedirection()
-        app.UseRouting()
-        app.UseAuthorization()
-        app.MapControllers()
-
-        app.Run()
-
-        exitCode
+        0

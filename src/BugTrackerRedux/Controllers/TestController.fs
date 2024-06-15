@@ -1,23 +1,16 @@
-﻿namespace BugTrackerRedux.Controllers
+﻿module BugTrackerRedux.Controllers.TestController
 
-open System
-open System.Text
-open System.Security.Cryptography
-open System.Threading.Tasks
-open BugTrackerRedux.Models.User
-open Microsoft.AspNetCore.Mvc
-open Microsoft.Data.Sqlite
-open Microsoft.Extensions.Configuration
+open Giraffe
+open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
-open Dapper
 
-[<ApiController>]
-[<Route("api/[controller]")>]
-type TestController(config: IConfiguration, logger: ILogger<LoginController>) =
-    inherit ControllerBase()
+type TestItem = { Data: int; OtherItem: string }
 
-    [<HttpGet>]
-    member _.Get(): IActionResult =
-        logger.LogInformation("Hit test endpoint.")
-        let response = {| message = "Test successful"; data = "Dorritos" |}
-        base.Ok(response) :> IActionResult
+let item = { Data = 1; OtherItem = "Banana" }
+
+let testHandler  =
+    
+    fun (next: HttpFunc) (ctx: HttpContext) ->
+        let logger = ctx.GetService<ILogger<TestItem>>()
+        logger.LogInformation("Test")
+        json item next ctx
