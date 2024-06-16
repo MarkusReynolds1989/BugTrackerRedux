@@ -4,7 +4,7 @@
 
 @if (_users is null)
 {
-    <MudProgressCircular>Loading...</MudProgressCircular>
+    <MudProgressCircular Indeterminate="true">Loading...</MudProgressCircular>
 }
 else if (_users.Count == 0)
 {
@@ -35,4 +35,5 @@ else
     {
         _users = await FetchAllUsers();
     }
+
 }
