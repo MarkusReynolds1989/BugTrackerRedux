@@ -4,21 +4,32 @@
 
 @if (_users is null)
 {
-    <MudProgressCircular Indeterminate="true">Loading...</MudProgressCircular>
+    <MudProgressCircular Color="Color.Info" Indeterminate="true"></MudProgressCircular>
+    <MudText>Loading...</MudText>
 }
 else if (_users.Count == 0)
 {
-    <MudAlert>No users to display.</MudAlert>
+    <MudAlert Severity="Severity.Warning">No users to display.</MudAlert>
 }
 else
 {
-    <MudPaper Width="300px">
-        <MudList T="@UserModel.User">
-            @foreach (var user in _users)
-            {
-                <MudListItem Text="@user.UserName" Icon="@Icons.Material.Filled.Person"/>
-            }
-        </MudList>
+    <MudPaper>
+        <MudTable T="UserModel.User" Items="_users" Hover="true">
+            <HeaderContent>
+                <MudTh>User Name</MudTh>
+                <MudTh>First Name</MudTh>
+                <MudTh>Last Name</MudTh>
+                <MudTh>Email</MudTh>
+                <MudTh>User ID</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="User Name">@context.UserName</MudTd>
+                <MudTd DataLabel="First Name">@context.FirstName</MudTd>
+                <MudTd DataLabel="Last Name">@context.LastName</MudTd>
+                <MudTd DataLabel="Email">@context.Email</MudTd>
+                <MudTd DataLabel="User ID">@context.UserId</MudTd>
+            </RowTemplate>
+        </MudTable>
     </MudPaper>
 }
 
