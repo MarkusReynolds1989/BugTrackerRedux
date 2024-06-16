@@ -12,6 +12,7 @@ module Program =
     let webApp =
         choose
             [ route "/api/ping" >=> TestController.testHandler
+              route "/api/getallusers" >=> UserController.getAllUsers
               route "/" >=> text "All Clear." ]
 
     let configureApp (app: IApplicationBuilder) = app.UseGiraffe webApp
@@ -26,7 +27,7 @@ module Program =
         |> ignore
 
     [<EntryPoint>]
-    let main args =
+    let main _ =
         Host
             .CreateDefaultBuilder()
             .ConfigureWebHostDefaults(fun webHostBuilder ->

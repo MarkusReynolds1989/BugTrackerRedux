@@ -1,0 +1,38 @@
+﻿@page "/users"
+@using BugTrackerRedux.Models
+@rendermode InteractiveServer
+
+@if (_users is null)
+{
+    <MudProgressCircular>Loading...</MudProgressCircular>
+}
+else if (_users.Count == 0)
+{
+    <MudAlert>No users to display.</MudAlert>
+}
+else
+{
+    <MudPaper Width="300px">
+        <MudList T="@UserModel.User">
+            @foreach (var user in _users)
+            {
+                <MudListItem Text="@user.UserName" Icon="@Icons.Material.Filled.Person"/>
+            }
+        </MudList>
+    </MudPaper>
+}
+
+@code {
+    private List<UserModel.User> _users;
+
+    private async Task<List<UserModel.User>> FetchAllUsers()
+    {
+        var users = await Http.GetFromJsonAsync<IList<UserModel.User>>("/api/getallusers");
+        return users.ToList();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _users = await FetchAllUsers();
+    }
+}

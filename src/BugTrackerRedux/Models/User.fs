@@ -1,4 +1,4 @@
-﻿module BugTrackerRedux.Models.User
+﻿module BugTrackerRedux.Models.UserModel
 
 type AuthenticationLevel =
     | Admin = 0

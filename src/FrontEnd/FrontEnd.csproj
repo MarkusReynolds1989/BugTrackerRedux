@@ -10,4 +10,8 @@
       <ProjectReference Include="..\BugTrackerRedux\BugTrackerRedux.fsproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MudBlazor" Version="7.0.0-rc.1" />
+    </ItemGroup>
+
 </Project>
